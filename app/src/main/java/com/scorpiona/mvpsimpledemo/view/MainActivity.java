@@ -2,8 +2,11 @@ package com.scorpiona.mvpsimpledemo.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
 
+import android.app.Activity;
 import android.content.res.Resources;
+import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,27 +17,25 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.scorpiona.mvpsimpledemo.R;
+import com.scorpiona.mvpsimpledemo.databinding.ActivityMainBinding;
 import com.scorpiona.mvpsimpledemo.presenter.MainActivityPresenter;
 
 public class MainActivity extends AppCompatActivity implements MainActivityPresenter.View {
 
+    private ActivityMainBinding binding;
     private MainActivityPresenter presenter;
-    private TextView myTextView;
     private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         presenter = new MainActivityPresenter(this);
 
-        myTextView = findViewById(R.id.myTextView);
-        EditText userName = findViewById(R.id.username);
-        EditText email = findViewById(R.id.email);
         initProgressBar();
 
-        userName.addTextChangedListener(new TextWatcher() {
+        binding.secondaryLayout.username.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
             }
         });
 
-        email.addTextChangedListener(new TextWatcher() {
+        binding.secondaryLayout.email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityPrese
 
     @Override
     public void updateUserInfoTextView(String info) {
-        myTextView.setText(info);
+        binding.secondaryLayout.myTextView.setText(info);
     }
 
     @Override
